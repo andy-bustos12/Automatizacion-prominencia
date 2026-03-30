@@ -1,40 +1,25 @@
 import sys
 
-def go_to_youtube(page, browser):
-    page.goto("https://www.youtube.com/")
-    page.wait_for_timeout(5000)
-    page.wait_for_selector("input[name='search_query']")
-    page.fill("input[name='search_query']", "Dolar hoy en colombia")
-    page.press("input[name='search_query']", "Enter")
-    page.wait_for_timeout(5000)
-
-    # Click en el primer video de los resultados
-    page.wait_for_selector("ytd-video-renderer a#thumbnail")
-    page.click("ytd-video-renderer a#thumbnail")
-    print("Reproduciendo video...")
-    page.wait_for_timeout(5000)
-
-    # Pausar el video presionando la tecla K
-    page.keyboard.press("k")
-    print("Video pausado.")
-    page.wait_for_timeout(2000)
-
+def go_to_dinorank(browser):
     # Abrir nueva pestaña y entrar a DinoRank
     email = "seo@agenciadigitalamd.com"
     password = "SEOMnbvcxz1"
 
-    dinorank_page = browser.new_page()
-    dinorank_page.goto("https://dinorank.com/login/")
-    dinorank_page.wait_for_load_state("networkidle")
-    dinorank_page.wait_for_timeout(3000)
-    dinorank_page.fill("//input[@id='usuario']", email)
-    dinorank_page.fill("//input[@id='password']", password)
-    dinorank_page.click("//button[@id='botonLogin']")
-    dinorank_page.wait_for_load_state("networkidle")
-    dinorank_page.wait_for_timeout(3000)
-    title = dinorank_page.title()
-    print(title.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8"))
-
+    try:
+        dinorank_page = browser.new_page()
+        dinorank_page.goto("https://dinorank.com/login/")
+        dinorank_page.wait_for_load_state("networkidle")
+        dinorank_page.wait_for_timeout(3000)
+        dinorank_page.fill("//input[@id='usuario']", email)
+        dinorank_page.fill("//input[@id='password']", password)
+        dinorank_page.click("//button[@id='botonLogin']")
+        dinorank_page.wait_for_load_state("networkidle")
+        dinorank_page.wait_for_timeout(3000)
+        title = dinorank_page.title()
+        print(title.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8"))
+    except Exception as e:
+        print(f"Error al iniciar sesión en DinoRank: {e}")
+        browser.close()
     # Ir a TF*IDF y prominencia
     dinorank_page.goto("https://dinorank.com/densidad-prominencia/")
     dinorank_page.wait_for_load_state("networkidle")
